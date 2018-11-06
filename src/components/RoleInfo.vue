@@ -25,7 +25,7 @@
 
     <form>
       <h4>{{ $t('message.updateRole') }}</h4>
-      <input type="text" :placeholder="$t('message.name')" v-model="roleName">
+      <input type="text" :placeholder="$t('message.name')" v-model="roleName = role.name">
       
       <button type="button" class="btn btn-success" @click="updateRole(role.role_id, roleName)">{{ $t('message.Accept') }}</button>
     </form>

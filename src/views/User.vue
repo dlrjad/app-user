@@ -16,7 +16,7 @@
           <td><h3>{{ user.user_id }}</h3></td>
           <td style="padding-left: 200px"><h3>{{ user.name }}</h3></td>
           <td style="padding-left: 100px"><h3>{{ user.mail }}</h3></td></router-link>
-          <td style="padding-left: 0px"><button type="button" class="btn btn-primary" @click="showUpdateForm(user.user_id, user.roles)">{{ $t('message.Modify') }}</button></td>
+          <td style="padding-left: 0px"><button type="button" class="btn btn-primary" @click="showUpdateForm(user.user_id, user.roles, user.name, user.mail)">{{ $t('message.Modify') }}</button></td>
           <td style="padding-left: 100px"><button type="button" class="btn btn-danger" @click="deleteUser(user.user_id, $t('message.deleteUser'))">{{ $t('message.Remove') }}</button></td>
         </tr>
       </table>
@@ -115,9 +115,11 @@ export default {
       this.showAdd = true
       this.showUpdate = false
     },
-    showUpdateForm(id, roles) {
+    showUpdateForm(id, roles, name, mail) {
       this.userId = id
       this.userRoles = roles
+      this.userName = name
+      this.userMail = mail
       this.showForm = true
       this.showUpdate = true
       this.showAdd = false
@@ -129,7 +131,6 @@ export default {
         this.$set(this.users, this.users.findIndex(e=>e.user_id==id), response.data)
         this.showForm = false
         this.showUpdate = false
-        //this.users.$set(id, res.data)
       })
     },
     nextPage(){

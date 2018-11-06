@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 
-import router from './router'
+import router from './router/routes'
 
 import {i18n} from './translations/vue-i18n';
 

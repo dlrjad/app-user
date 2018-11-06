@@ -3,19 +3,18 @@
     <table class="header">
       <tr>
         <th><h2>ID</h2></th>
-        <th><h2>{{ $t('message.Privilege') }}</h2></th>
+        <th><h2>{{ $t('message.Role') }}</h2></th>
         <th><h2>{{ $t('message.Modify') }}</h2></th>
         <th><h2>{{ $t('message.Remove') }}</h2></th>
       </tr>
     </table>
-    <div v-for="(privilege, index) in privileges" :key="index">
+    <div v-for="(role, index) in roles" :key="index">
       <table>
         <tr>
-          <router-link :to="`/privilege/${privilege.privilege_id}`"><a><td><h3>{{ privilege.privilege_id }}</h3></td>
-          <td style="padding-left: 200px"><h3>{{ privilege.name }}</h3></td></a></router-link>
-          <!--<td colspan="2"><router-link :to="`/privilege/${privilege.privilege_id}`"><a>{{ privilege.privilege_id }} {{ privilege.name }}</a></router-link></td>-->
-          <td style="padding-left: 100px"><button type="button" class="btn btn-primary" @click="showUpdateForm(privilege.privilege_id)">{{ $t('message.Modify') }}</button></td>
-          <td style="padding-left: 270px"><button type="button" class="btn btn-danger" @click="deletePrivilege(privilege.privilege_id, $t('message.deletePrivilege'))">{{ $t('message.Remove') }}</button></td>
+          <router-link :to="`/role/${role.role_id}`"><a><td><h3>{{ role.role_id }}</h3></td>
+          <td style="padding-left: 200px"><h3>{{ role.name }}</h3></td></a></router-link>
+          <td style="padding-left: 0px"><button type="button" class="btn btn-primary" @click="showUpdateForm(role.role_id, role.privileges, role.name)">{{ $t('message.Modify') }}</button></td>
+          <td style="padding-left: 270px"><button type="button" class="btn btn-danger"  @click="deleteRole(role.role_id, $t('message.deleteRole'))">{{ $t('message.Remove') }}</button></td>
         </tr>
       </table>
     </div>
@@ -28,37 +27,39 @@
     <button class="btn btn-info btn-sm" @click="nextPage">
       &gt;
     </button>
-
+    
     <div class="clear"></div>
 
     <button type="button" class="btn btn-success" @click="showRegisterForm()">{{ $t('message.Add') }}</button>
 
-    <div class="clear"></div>
+    <div class=clear></div>
 
     <form action="" v-show="showForm">
       <h4 v-show="showAdd">{{ $t('message.Register') }}</h4>
-      <h4 v-show="showUpdate">{{ $t('message.updatePrivilege') }}: {{privilegeId}}</h4>
-      <input v-model="privilegeName" :placeholder="$t('message.name')">
-      <input type="hidden" v-model="privilegeId">
+      <h4 v-show="showUpdate">{{ $t('message.updateRole') }}: {{roleId}}</h4>
+      <input v-model="roleName" :placeholder="$t('message.name')">
+      <input type="hidden" v-model="roleId">
+      <input type="hidden" v-model="rolePrivileges">
       
-      <button type="button" class="btn btn-success" @click="addPrivilege(privilegeName)" v-show="showAdd">{{ $t('message.Accept') }}</button>
-      <button type="button" class="btn btn-success" @click="updatePrivilege(privilegeId, privilegeName)" v-show="showUpdate">{{ $t('message.Accept') }}</button>
+      <button type="button" class="btn btn-success" @click="addRole(roleName)" v-show="showAdd">{{ $t('message.Accept') }}</button>
+      <button type="button" class="btn btn-success" @click="updateRole(roleId, roleName, rolePrivileges)" v-show="showUpdate">{{ $t('message.Accept') }}</button>
     </form>
 
   </section>
+  
 </template>
 
 <script>
 import axios from 'axios'
 
-import PrivilegeServices from '../services/PrivilegeServices';
-const restApiServices = new PrivilegeServices();
+import RoleServices from '../services/RoleServices';
+const restApiServices = new RoleServices();
 
 export default {
   created() {
-    restApiServices.getPrivileges().then(
-      privileges => {
-        this.privileges = privileges
+    restApiServices.getRoles().then(
+      roles => {
+        this.roles = roles.data
       }
     ).catch(
       error => {
@@ -69,10 +70,11 @@ export default {
   },
   data() {
     return {
-      privileges: [],
-      privilege: {},
-      privilegeId: null,
-      privilegeName: null,
+      roles: [],
+      role: {},
+      roleId: null,
+      roleName: null,
+      rolePrivileges: null,
       showForm: false,
       showAdd: false,
       showUpdate: false,
@@ -87,16 +89,16 @@ export default {
     }
   },
   methods: {
-    deletePrivilege(id, message) {
+    deleteRole(id, message) {
       if(confirm(message  + " " + id + "?")){
-        restApiServices.deletePrivilege(id).then(res => {
-          this.privileges.splice(this.privileges.findIndex(e=>e.privilege_id==id), 1)
+        restApiServices.deleteRole(id).then(res => {
+          this.roles.splice(this.roles.findIndex(e=>e.role_id==id), 1)
         })
       }
     },
-    addPrivilege(name) {
-      restApiServices.addPrivilege(name).then(res => {
-        this.privileges.push(res.data);
+    addRole(name) {
+      restApiServices.addRole(name).then(res => {
+        this.roles.push(res.data);
         this.showForm = false
         this.showAdd = false
       })
@@ -106,15 +108,19 @@ export default {
       this.showAdd = true
       this.showUpdate = false
     },
-    showUpdateForm(id) {
-      this.privilegeId = id
+    showUpdateForm(id, privileges, name) {
+      this.roleId = id
+      this.rolePrivileges = privileges
+      this.roleName = name
       this.showForm = true
       this.showUpdate = true
       this.showAdd = false
     },
-    updatePrivilege(id, name) {
-      restApiServices.updatePrivilege(id, name).then(response => {
-        this.$set(this.privileges, this.privileges.findIndex(e=>e.privilege_id==id), response.data)
+    updateRole(id, name, privileges) {
+      console.log(id, name, privileges)
+      restApiServices.updateRole(id, name, privileges).then(response => {
+        console.log(response)
+        this.$set(this.roles, this.roles.findIndex(e=>e.role_id==id), response.data)
         this.showForm = false
         this.showUpdate = false
       })
@@ -130,14 +136,14 @@ export default {
   },
   computed: {
     pageCount(){
-      let l = this.privileges.length,
+      let l = this.roles.length,
       s = this.size;
       return Math.floor(l/s);
     },
     paginatedData(){
       const start = this.pageNumber * this.size,
       end = start + this.size;
-      return this.privileges.slice(start, end);
+      return this.roles.slice(start, end);
     }
   }
 }

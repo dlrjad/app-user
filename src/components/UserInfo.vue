@@ -26,8 +26,8 @@
 
     <form>
       <h4>{{ $t('message.updateUser') }}</h4>
-      <input type="text" :placeholder="$t('message.name')" v-model="userName">
-      <input type="email" placeholder="email" v-model="userMail" >
+      <input type="text" :placeholder="$t('message.name')" v-model="userName = user.name">
+      <input type="email" placeholder="email" v-model="userMail = user.mail" >
 
       <button type="button" class="btn btn-success" @click="updateUser(user.user_id, userName, userMail)">{{ $t('message.Accept') }}</button>
     </form>

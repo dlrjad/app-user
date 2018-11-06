@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import User from './components/User.vue'
-import Role from './components/Role.vue'
-import Privilege from './components/Privilege.vue'
+import User from './views/User.vue'
+import Role from './views/Role.vue'
+import Privilege from './views/Privilege.vue'
 
 export default {
   name: 'app',
