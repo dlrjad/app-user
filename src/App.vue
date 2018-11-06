@@ -8,6 +8,8 @@
         <router-link to="/roles" class="nav-item nav-link" active-class="activo"><a  id="nav-roles-tab" data-toggle="tab" href="#nav-roles" role="tab" aria-controls="nav-roles" aria-selected="false">{{ $t('message.Roles') }}</a></router-link>
         <router-link to="/privileges" class="nav-item nav-link" active-class="activo"><a  id="nav-privileges-tab" data-toggle="tab" href="#nav-privileges" role="tab" aria-controls="nav-privileges" aria-selected="false">{{ $t('message.Privileges') }}</a></router-link>
 
+        <router-link v-if="authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>
+
         <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" @click="Spanish"><img :src="require('./assets/spanish.png')"/></a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false" @click="English"><img :src="require('./assets/english.jpg')"/></a>
 
@@ -27,12 +29,22 @@ export default {
   data () {
     return {
       msg: 'app-user',
+      authenticated: false,
+      mockAccount: {
+          username: "nobody",
+          password: "password"
+      }
     }
   },
   components: {
     User,
     Role,
     Privilege
+  },
+  mounted() {
+    if(!this.authenticated) {
+      this.$router.replace({ name: "login" });
+    }
   },
   methods: {
     switchLocale() {
@@ -44,6 +56,12 @@ export default {
     English() {
       this.$i18n.locale = 'en'
     },
+    setAuthenticated(status) {
+      this.authenticated = status;
+    },
+    logout() {
+      this.authenticated = false;
+    }
   }
 }
 </script>
