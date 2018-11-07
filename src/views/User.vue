@@ -16,7 +16,7 @@
           <td><h3>{{ user.user_id }}</h3></td>
           <td style="padding-left: 200px"><h3>{{ user.name }}</h3></td>
           <td style="padding-left: 100px"><h3>{{ user.mail }}</h3></td></router-link>
-          <td style="padding-left: 0px"><button type="button" class="btn btn-primary" @click="showUpdateForm(user.user_id, user.roles, user.name, user.mail)">{{ $t('message.Modify') }}</button></td>
+          <td style="padding-left: 0px"><button type="button" class="btn btn-primary" @click="showUpdateForm(user.user_id, user.roles, user.name, user.password, user.mail)">{{ $t('message.Modify') }}</button></td>
           <td style="padding-left: 100px"><button type="button" class="btn btn-danger" @click="deleteUser(user.user_id, $t('message.deleteUser'))">{{ $t('message.Remove') }}</button></td>
         </tr>
       </table>
@@ -41,12 +41,19 @@
       <h4 v-show="showAdd">{{ $t('message.Register') }}</h4>
       <h4 v-show="showUpdate">{{ $t('message.updateUser') }}: {{userId}}</h4>
       <input v-model="userName" :placeholder="$t('message.name')">
+      <br>
       <input type="email" v-model="userMail" placeholder="email">
+      <br>
+      <input v-show="showAdd" type="password" v-model="userPassword" :placeholder="$t('message.password')">
+      <br>
+      <input v-show="showAdd" type="password" v-model="userConfirmPassword" :placeholder="$t('message.confirmPassword')">
+      <br>
       <input type="hidden" v-model="userId">
+      <input type="hidden" v-model="userPassword">
       <input type="hidden" v-model="userRoles">
 
-      <button type="button" class="btn btn-success" @click="addUser(userName, userMail)" v-show="showAdd">{{ $t('message.Accept') }}</button>
-      <button type="button" class="btn btn-success" @click="updateUser(userId, userName, userMail, userRoles)" v-show="showUpdate">{{ $t('message.Accept') }}</button>
+      <button type="button" class="btn btn-success" @click="addUser(userName, userPassword, userConfirmPassword, userMail)" v-show="showAdd">{{ $t('message.Accept') }}</button>
+      <button type="button" class="btn btn-success" @click="updateUser(userId, userName, userPassword, userMail, userRoles)" v-show="showUpdate">{{ $t('message.Accept') }}</button>
     </form>
     
     <!--<pre>{{ $data }}</pre>-->
@@ -80,6 +87,8 @@ export default {
       user: {},
       userId: null,
       userName: null,
+      userPassword: null,
+      userConfirmPassword: null,
       userMail: null,
       userRoles: null,
       showForm: false,
@@ -103,30 +112,35 @@ export default {
         })
       }
     },
-    addUser(name, mail) {
-      restApiServices.addUser(name, mail).then(res => {
-        this.users.push(res.data);
-        this.showForm = false
-        this.showAdd = false
-      })
+    addUser(name, password, confirmPassword, mail) {
+      if(password != confirmPassword) {
+        alert("contraseñas no coinciden")
+      }else {
+        restApiServices.addUser(name, password, mail).then(res => {
+          this.users.push(res.data);
+          this.showForm = false
+          this.showAdd = false
+        })
+      }
     },
     showRegisterForm() {
       this.showForm = true
       this.showAdd = true
       this.showUpdate = false
     },
-    showUpdateForm(id, roles, name, mail) {
+    showUpdateForm(id, roles, name, password, mail) {
       this.userId = id
       this.userRoles = roles
       this.userName = name
+      this.userPassword = password
       this.userMail = mail
       this.showForm = true
       this.showUpdate = true
       this.showAdd = false
     },
-    updateUser(id, name, mail, roles) {
-      console.log(id, name, mail, roles)
-      restApiServices.updateUser(id, name, mail, roles).then(response => {
+    updateUser(id, name, password, mail, roles) {
+      console.log(id, name, password, mail, roles)
+      restApiServices.updateUser(id, name, password, mail, roles).then(response => {
         console.log(response)
         this.$set(this.users, this.users.findIndex(e=>e.user_id==id), response.data)
         this.showForm = false

@@ -20,7 +20,7 @@
       <label :for="role.name">{{role.role_id}} {{role.name}}</label>
     </div>
 
-    <button type="button" class="btn btn-primary" @click="assignRole(user.user_id, user.name, user.mail)">{{ $t('message.Assign') }}</button>
+    <button type="button" class="btn btn-primary" @click="assignRole(user.user_id, user.name, user.password, user.mail)">{{ $t('message.Assign') }}</button>
 
     <div class=clear></div>
 
@@ -29,7 +29,7 @@
       <input type="text" :placeholder="$t('message.name')" v-model="userName = user.name">
       <input type="email" placeholder="email" v-model="userMail = user.mail" >
 
-      <button type="button" class="btn btn-success" @click="updateUser(user.user_id, userName, userMail)">{{ $t('message.Accept') }}</button>
+      <button type="button" class="btn btn-success" @click="updateUser(user.user_id, userName, user.password, userMail)">{{ $t('message.Accept') }}</button>
     </form>
 
   </section>
@@ -80,7 +80,7 @@ export default {
     }
   },
   methods: {
-    assignRole(id, name, mail) {
+    assignRole(id, name, password, mail) {
       for(let i=0; i<this.checkedNames.length; i++) {
         //console.log(this.checkedNames[i])
         restApiServices_.getRole(this.checkedNames[i].role_id).then(res => {
@@ -94,14 +94,14 @@ export default {
         ).then(res => {
           console.log(this.assignRoles)
           //console.log(id, name, mail)
-          restApiServices.updateUser(id, name, mail, this.assignRoles).then(res => {
+          restApiServices.updateUser(id, name, password, mail, this.assignRoles).then(res => {
             //console.log("update: " + res.data)
             this.user=res.data
           })
         })
       }
     },
-    updateUser(id, name, mail) {
+    updateUser(id, name, password, mail) {
       for(let i=0; i<this.checkedNames.length; i++) {
         //console.log(this.checkedNames[i])
         restApiServices_.getRole(this.checkedNames[i].role_id).then(res => {
@@ -115,7 +115,7 @@ export default {
         ).then(res => {
           console.log(this.assignRoles)
           //console.log(id, name, mail)
-          restApiServices.updateUser(id, name, mail, this.assignRoles).then(res => {
+          restApiServices.updateUser(id, name, password, mail, this.assignRoles).then(res => {
             //console.log("update: " + res.data)
             this.user=res.data
           })

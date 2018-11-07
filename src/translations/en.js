@@ -27,7 +27,9 @@ export default {
       updateRole: 'Update role',
       deleteUser: 'Do you want to delete the user with id',
       deleteRole: 'Do you want to delete the role with id',
-      deletePrivilege: 'Do you want to delete the privilege with id'
+      deletePrivilege: 'Do you want to delete the privilege with id',
+      password: 'password',
+      confirmPassword: 'confirm password'
     }   
   } 
 }

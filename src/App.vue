@@ -1,45 +1,30 @@
 <template>
   <div id="app">
-    <!--<img src="./assets/logo.png">-->
     <h1>{{ $t('message.Title') }}</h1>
-    <nav>
+    <nav v-show="authenticated">
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <router-link to="/users" class="nav-item nav-link" active-class="activo"><a id="nav-users-tab" data-toggle="tab" href = "#nav-roles"  role="tab" aria-controls="nav-users" aria-selected="true">{{ $t('message.Users') }}</a></router-link>
-        <router-link to="/roles" class="nav-item nav-link" active-class="activo"><a  id="nav-roles-tab" data-toggle="tab" href="#nav-roles" role="tab" aria-controls="nav-roles" aria-selected="false">{{ $t('message.Roles') }}</a></router-link>
-        <router-link to="/privileges" class="nav-item nav-link" active-class="activo"><a  id="nav-privileges-tab" data-toggle="tab" href="#nav-privileges" role="tab" aria-controls="nav-privileges" aria-selected="false">{{ $t('message.Privileges') }}</a></router-link>
-
-        <router-link v-if="authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>
+        <router-link to="/users" class="nav-item nav-link" active-class="activo"><a id="nav-users-tab" data-toggle="tab" href = "users"  role="tab" aria-controls="nav-users" aria-selected="true">{{ $t('message.Users') }}</a></router-link>
+        <router-link to="/roles" class="nav-item nav-link" active-class="activo"><a  id="nav-roles-tab" data-toggle="tab" href="roles" role="tab" aria-controls="nav-roles" aria-selected="false">{{ $t('message.Roles') }}</a></router-link>
+        <router-link to="/privileges" class="nav-item nav-link" active-class="activo"><a  id="nav-privileges-tab" data-toggle="tab" href="privileges" role="tab" aria-controls="nav-privileges" aria-selected="false">{{ $t('message.Privileges') }}</a></router-link>
 
         <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" @click="Spanish"><img :src="require('./assets/spanish.png')"/></a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false" @click="English"><img :src="require('./assets/english.jpg')"/></a>
 
+        <router-link v-if="authenticated" to="/login" class="nav-item nav-link" active-class="activo" v-on:click.native="logout()" replace>Logout</router-link>
+
       </div>
     </nav>
-    <router-view></router-view>
+    <router-view @authenticated="setAuthenticated"></router-view>
   </div>
 </template>
 
 <script>
-import User from './views/User.vue'
-import Role from './views/Role.vue'
-import Privilege from './views/Privilege.vue'
-
 export default {
   name: 'app',
   data () {
     return {
-      msg: 'app-user',
       authenticated: false,
-      mockAccount: {
-          username: "nobody",
-          password: "password"
-      }
     }
-  },
-  components: {
-    User,
-    Role,
-    Privilege
   },
   mounted() {
     if(!this.authenticated) {
@@ -100,7 +85,7 @@ a {
 }
 
 img {
-  width: 100px;
-  height: 80px;
+  width: 40px;
+  height: 30px;
 }
 </style>

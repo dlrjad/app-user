@@ -1,5 +1,6 @@
 <template>
-  <div id="secure">
+  <div id="app">
+     <h1>{{ $t('message.Title') }}</h1>
     <h1>Secure Area</h1>
     <p>
       This is a secure area

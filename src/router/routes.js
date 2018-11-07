@@ -23,7 +23,7 @@ export default new Router({
     {path: '/login', name: 'login', component: LoginComponent},
     {path: '/secure', name: 'secure', component: SecureComponent},
 
-    {path: '/users', component: BootStrapComponent,  
+    {path: '/users', name: 'users', component: BootStrapComponent,  
       children: [
         {path: '', component: Users},
         {path: '/user/:id', component: User},

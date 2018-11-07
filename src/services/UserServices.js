@@ -8,6 +8,7 @@ export default class RestResource {
             return {
               "user_id": e.user_id,
               "name": e.name,
+              "password": e.password,
               "mail": e.mail,
               "roles": e.roles
             };
@@ -27,20 +28,26 @@ export default class RestResource {
     return axios.get(process.env.ROOT_API + '/user/' + id + '')
   }
 
+  getUserByNamePassword(name, password) {
+    return axios.get(process.env.ROOT_API + '/user/' + name + '/' + password + '')
+  }
+
   deleteUser(id) {
     return axios.delete(process.env.ROOT_API + '/user/' + id + '');
   }
 
-  addUser(name, mail) {
+  addUser(name, password, mail) {
     return axios.post(process.env.ROOT_API + '/user/', {
       name: name,
+      password: password,
       mail: mail
     });
   }
 
-  updateUser(id, name, mail, roles) {
+  updateUser(id, name, password, mail, roles) {
     return axios.put(process.env.ROOT_API + '/user/' + id + '', {
       name: name,
+      password: password,
       mail: mail,
       roles: roles
     })
