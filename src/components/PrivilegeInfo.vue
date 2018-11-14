@@ -5,6 +5,10 @@
       <li>{{ $t('message.name') }}: {{ this.privilege.name }}</li>
     </ul>
 
+    <div class="alert alert-danger" v-show="error">
+      <strong>Error...</strong> no tienes permisos para realizar esta petición
+    </div>
+
   </section>
 </template>
 
@@ -16,16 +20,24 @@ const restApiServices = new PrivilegeServices();
 
 export default {
   created() {
-    console.log(this.id)
+    this.error = false
     restApiServices.getPrivilege(this.id).then(res => {
-      console.log(res.data)
+      //console.log(res.data)
       this.privilege = res.data
     })
+    .catch(
+      error => {
+        console.log(error),
+        //alert(error)
+        this.error = true
+      }
+    )
   },
   data() {
     return {
       id: this.$route.params.id,
       privilege: [],
+      error: false
     }
   }
 }

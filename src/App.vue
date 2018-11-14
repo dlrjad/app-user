@@ -1,7 +1,9 @@
 <template>
   <div id="app">
+    
     <h1>{{ $t('message.Title') }}</h1>
-    <nav v-show="authenticated">
+    <div v-show="authenticated">
+    <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <router-link to="/users" class="nav-item nav-link" active-class="activo"><a id="nav-users-tab" data-toggle="tab" href = "users"  role="tab" aria-controls="nav-users" aria-selected="true">{{ $t('message.Users') }}</a></router-link>
         <router-link to="/roles" class="nav-item nav-link" active-class="activo"><a  id="nav-roles-tab" data-toggle="tab" href="roles" role="tab" aria-controls="nav-roles" aria-selected="false">{{ $t('message.Roles') }}</a></router-link>
@@ -10,15 +12,22 @@
         <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" @click="Spanish"><img :src="require('./assets/spanish.png')"/></a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false" @click="English"><img :src="require('./assets/english.jpg')"/></a>
 
-        <router-link v-if="authenticated" to="/login" class="nav-item nav-link" active-class="activo" v-on:click.native="logout()" replace>Logout</router-link>
-
+        <div class="user">
+          <span>Usuario: {{this.$store.state.user}}</span>
+          <router-link v-if="authenticated" to="/login" class="nav-item nav-link" active-class="activo" v-on:click.native="logout()" replace>Logout</router-link>
+        </div>
       </div>
     </nav>
+    
+    </div>
     <router-view @authenticated="setAuthenticated"></router-view>
   </div>
 </template>
 
 <script>
+
+import {store} from './main.js'
+
 export default {
   name: 'app',
   data () {
@@ -26,7 +35,7 @@ export default {
       authenticated: false,
     }
   },
-  mounted() {
+  created() {
     if(!this.authenticated) {
       this.$router.replace({ name: "login" });
     }
@@ -46,6 +55,8 @@ export default {
     },
     logout() {
       this.authenticated = false;
+      this.$store.commit("setUser", "");
+      this.$store.commit("setToken", "");
     }
   }
 }
@@ -87,5 +98,13 @@ a {
 img {
   width: 40px;
   height: 30px;
+}
+
+.user {
+  text-align: right;
+  margin-left: 50%;
+}
+.user span {
+  font-weight: bold;
 }
 </style>

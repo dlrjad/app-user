@@ -11,7 +11,6 @@ import Privilege from '@/components/PrivilegeInfo.vue'
 import NotFound from '@/views/NotFound.vue'
 
 import LoginComponent from "@/views/login.vue"
-import SecureComponent from "@/views/secure.vue"
 
 Vue.use(Router)
 
@@ -21,11 +20,10 @@ export default new Router({
   routes: [  
     {path: '/', redirect: '/login'},
     {path: '/login', name: 'login', component: LoginComponent},
-    {path: '/secure', name: 'secure', component: SecureComponent},
 
-    {path: '/users', name: 'users', component: BootStrapComponent,  
+    {path: '/users', component: BootStrapComponent,  
       children: [
-        {path: '', component: Users},
+        {path: '', name: 'users', component: Users},
         {path: '/user/:id', component: User},
       ] 
     },

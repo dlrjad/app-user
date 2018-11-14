@@ -29,6 +29,10 @@
       
       <button type="button" class="btn btn-success" @click="updateRole(role.role_id, roleName)">{{ $t('message.Accept') }}</button>
     </form>
+
+    <div class="alert alert-danger" v-show="error">
+      <strong>Error...</strong> no tienes permisos para realizar esta petición
+    </div>
     
   </section>
 </template>
@@ -44,7 +48,7 @@ const restApiServices_ = new PrivilegeServices();
 
 export default {
   created() {
-    console.log(this.id)
+    this.error = false
     restApiServices.getRole(this.id).then(res => {
       //console.log(res.data)
       this.role = res.data;
@@ -52,6 +56,13 @@ export default {
         this.checkedNames.push(e)
       });
     })
+    .catch(
+      error => {
+        console.log(error),
+        //alert(error)
+        this.error = true
+      }
+    )
 
     restApiServices_.getPrivileges().then(
       privileges => {
@@ -60,7 +71,8 @@ export default {
     ).catch(
       error => {
         console.log(error),
-        alert(error)
+        //alert(error)
+        this.error = true
       }
     )
   },
@@ -72,7 +84,8 @@ export default {
       privileges: [],
       privilege: {},
       assignPrivileges: [],
-      checkedNames: []
+      checkedNames: [],
+      error: false
     }
   },
   methods: {
@@ -85,7 +98,8 @@ export default {
         }).catch(
           error => {
             console.log(error),
-            alert(error)
+            //alert(error)
+            this.error = true;
           }
         ).then(res => {
           //console.log(this.assignPrivileges)
@@ -95,6 +109,13 @@ export default {
             this.role=res.data
           })
         })
+        .catch(
+          error => {
+            console.log(error),
+            //alert(error)
+            this.error = true
+          }
+        )
       }
     },
     updateRole(id, name) {
@@ -106,7 +127,8 @@ export default {
         }).catch(
           error => {
             console.log(error),
-            alert(error)
+            //alert(error)
+            this.error = true
           }
         ).then(res => {
           console.log(this.assignPrivileges)
@@ -116,6 +138,13 @@ export default {
             this.role=res.data
           })
         })
+        .catch(
+          error => {
+            console.log(error),
+            //alert(error)
+            this.error = true
+          }
+        )
       }
     },
   }

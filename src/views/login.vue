@@ -2,7 +2,7 @@
     <div id="login">
         <h1>Login</h1>
         <form>
-        <input type="text" name="username" v-model="input.username" placeholder="Username" />
+        <input type="mail" name="mail" v-model="input.mail" placeholder="Mail" />
         <input type="password" name="password" v-model="input.password" placeholder="Password" @keyup.enter="login" />
         <button type="button"   class="btn btn-primary" @click="login()">Login</button>
         </form>
@@ -13,6 +13,8 @@
 
 import UserServices from '../services/UserServices';
 import { isUndefined } from 'util';
+import {store} from '../main.js'
+
 const restApiServices = new UserServices();
 
 export default {
@@ -20,26 +22,26 @@ export default {
   data() {
     return {
       input: {
-        username: "",
+        mail: "",
         password: ""
       }
     };
   },
   methods: {
     login() {
-      if (this.input.username != "" && this.input.password != "") {
-        restApiServices.getUserByNamePassword(this.input.username, this.input.password).then(res => {
-          //console.log(res.data.roles)
-          this.user = res.data
-          console.log(this.user)
-          if((!this.user.isNullOrUndefined) && (!this.user.name.isUndefined)) {
+      if (this.input.mail != "" && this.input.password != "") {
+        restApiServices.getUserByMailPassword(this.input.mail, this.input.password).then(res => {
+          //console.log(res.data)
+          if((!res.data.isNullOrUndefined) ) {
             this.$emit("authenticated", true);
+            this.$store.commit("setUser", this.input.mail);
+            this.$store.commit("setToken", res.data);
             this.$router.replace({ name: "users" });
           }
         }).catch(
           error => {
-            console.log(error),
-            console.log("The username and / or password is incorrect");
+            console.log(error)
+            console.log("The mail and / or password is incorrect")
             alert("Nombre o Password incorrecto")
           }
         )
