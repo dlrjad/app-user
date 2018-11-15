@@ -29,7 +29,12 @@ export default {
       deleteRole: 'Do you want to delete the role with id',
       deletePrivilege: 'Do you want to delete the privilege with id',
       password: 'password',
-      confirmPassword: 'confirm password'
+      confirmPassword: 'confirm password',
+      Login: 'Login',
+      Logout: 'Logout',
+      rememberPassword: 'Remember password',
+      errorNotDataLogin: 'You must enter mail and password',
+      permits: 'you haven`t permits to realize this petition',
     }   
   } 
 }

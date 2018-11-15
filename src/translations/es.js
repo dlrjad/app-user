@@ -29,7 +29,12 @@ export default {
       deleteRole: '¿Desea eliminar el rol con id',
       deletePrivilege: '¿Desea eliminar el privilegio con id',
       password: 'contraseña',
-      confirmPassword: 'confirmar contraseña'
+      confirmPassword: 'confirmar contraseña',
+      Login: 'Iniciar sesión',
+      Logout: 'Cerrar sesión',
+      rememberPassword: 'Recordar contraseña',
+      errorNotDataLogin: 'Debe introducir mail y password',
+      permits: 'no tienes permisos para realizar esta petición',
     }   
   } 
 }

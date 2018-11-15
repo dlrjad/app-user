@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     user: "",
-    token: ""
+    token: "",
+    authenticated: ""
   },
   mutations: {
     setUser(state, user) {
@@ -14,6 +15,9 @@ export const store = new Vuex.Store({
     },
     setToken(state, token) {
       state.token = token
+    },
+    setAuthenticated(state, flag) {
+      state.authenticated = flag
     }
   }
 })

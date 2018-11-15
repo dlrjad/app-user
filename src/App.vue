@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    
     <h1>{{ $t('message.Title') }}</h1>
-    <div v-show="authenticated">
+    <div>
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <router-link to="/users" class="nav-item nav-link" active-class="activo"><a id="nav-users-tab" data-toggle="tab" href = "users"  role="tab" aria-controls="nav-users" aria-selected="true">{{ $t('message.Users') }}</a></router-link>
@@ -12,9 +11,9 @@
         <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" @click="Spanish"><img :src="require('./assets/spanish.png')"/></a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false" @click="English"><img :src="require('./assets/english.jpg')"/></a>
 
-        <div class="user">
-          <span>Usuario: {{this.$store.state.user}}</span>
-          <router-link v-if="authenticated" to="/login" class="nav-item nav-link" active-class="activo" v-on:click.native="logout()" replace>Logout</router-link>
+        <div v-if="$store.state.authenticated" class="user">
+          <span>{{ $t('message.User') }}: {{this.$store.state.user}}</span>
+          <router-link to="/login" class="nav-item nav-link" active-class="activo" v-on:click.native="logout()" replace>{{ $t('message.Logout') }}</router-link>
         </div>
       </div>
     </nav>
@@ -30,16 +29,6 @@ import {store} from './main.js'
 
 export default {
   name: 'app',
-  data () {
-    return {
-      authenticated: false,
-    }
-  },
-  created() {
-    if(!this.authenticated) {
-      this.$router.replace({ name: "login" });
-    }
-  },
   methods: {
     switchLocale() {
       this.$i18n.locale === 'es' ? this.$i18n.locale = 'en' : this.$i18n.locale = 'es'
@@ -51,10 +40,10 @@ export default {
       this.$i18n.locale = 'en'
     },
     setAuthenticated(status) {
-      this.authenticated = status;
+      this.$store.commit("setAuthenticated", status);
     },
     logout() {
-      this.authenticated = false;
+      this.$store.commit("setAuthenticated", false);
       this.$store.commit("setUser", "");
       this.$store.commit("setToken", "");
     }

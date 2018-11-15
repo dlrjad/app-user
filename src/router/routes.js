@@ -10,11 +10,13 @@ import Privileges from '@/views/Privilege.vue'
 import Privilege from '@/components/PrivilegeInfo.vue'
 import NotFound from '@/views/NotFound.vue'
 
-import LoginComponent from "@/views/login.vue"
+import LoginComponent from "@/views/Login.vue"
+
+import { store } from "../store/store.js";
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   
   routes: [  
@@ -41,7 +43,12 @@ export default new Router({
         {path: '/privilege/:id', component: Privilege},
       ]
     },
-    
-    {path: '*', component: NotFound}
+   
+    {path: '*', component: NotFound},
+
   ]
 })
+
+router.beforeEach((to, from, next) => !store.state.token && to.path != '/login' ? next('/login') : next())
+
+export default router

@@ -1,27 +1,26 @@
 <template>
   <section class="data" data-css>
     <div v-show="!error">
-      <table class="header">
-        <tr>
-          <th><h2>ID</h2></th>
-          <th><h2>{{ $t('message.User') }}</h2></th>
-          <th><h2>Mail</h2></th>
-          <th><h2>{{ $t('message.Modify') }}</h2></th>
-          <th><h2>{{ $t('message.Remove') }}</h2></th>
-        </tr>
-      </table>
-      <div v-for="(user, index) in paginatedData" :key="index">
-        <table>
+      <table class="table">
+        <thead class="header">
           <tr>
-            <router-link :to="`/user/${user.user_id}`">
-            <td><h3>{{ user.user_id }}</h3></td>
-            <td style="padding-left: 200px"><h3>{{ user.name }}</h3></td>
-            <td style="padding-left: 100px"><h3>{{ user.mail }}</h3></td></router-link>
-            <td style="padding-left: 0px"><button type="button" class="btn btn-primary" @click="showUpdateForm(user.user_id, user.roles, user.name, user.password, user.mail)">{{ $t('message.Modify') }}</button></td>
-            <td style="padding-left: 100px"><button type="button" class="btn btn-danger" @click="deleteUser(user.user_id, $t('message.deleteUser'))">{{ $t('message.Remove') }}</button></td>
+            <th scope="col">ID</th>
+            <th scope="col">{{ $t('message.User') }}</th>
+            <th scope="col">Mail</th>
+            <th scope="col">{{ $t('message.Modify') }}</th>
+            <th scope="col">{{ $t('message.Remove') }}</th>
           </tr>
-        </table>
-      </div>
+        </thead>
+        <tbody class="data" v-for="(user, index) in paginatedData" :key="index">
+          <tr>
+            <th scope="row"><router-link :to="`/user/${user.user_id}`">{{ user.user_id }}</router-link></th>
+            <td><router-link :to="`/user/${user.user_id}`">{{ user.name }}</router-link></td>
+            <td><router-link :to="`/user/${user.user_id}`">{{ user.mail }}</router-link></td>
+            <td><button type="button" class="btn btn-primary" @click="showUpdateForm(user.user_id, user.roles, user.name, user.password, user.mail)">{{ $t('message.Modify') }}</button></td>
+            <td><button type="button" class="btn btn-danger" @click="deleteUser(user.user_id, $t('message.deleteUser'))">{{ $t('message.Remove') }}</button></td>
+          </tr>
+        </tbody>
+      </table>
 
       <div class="clear"></div>
 
@@ -37,23 +36,35 @@
       <button type="button" class="btn btn-success" @click="showRegisterForm()">{{ $t('message.Add') }}</button>
 
       <div class=clear></div>
-      
-      <form action="" v-show="showForm">
+
+      <form class="form" data-css action="" v-show="showAdd">
         <h4 v-show="showAdd">{{ $t('message.Register') }}</h4>
-        <h4 v-show="showUpdate">{{ $t('message.updateUser') }}: {{userId}}</h4>
-        <input v-model="userName" :placeholder="$t('message.name')">
-        <br>
-        <input type="email" v-model="userMail" placeholder="email">
-        <br>
-        <input v-show="showAdd" type="password" v-model="userPassword" :placeholder="$t('message.password')">
-        <br>
-        <input v-show="showAdd" type="password" v-model="userConfirmPassword" :placeholder="$t('message.confirmPassword')">
-        <br>
+        <div class="form-group">
+          <input v-model="userName" :placeholder="$t('message.name')">
+        </div>
+        <div class="form-group">
+          <input type="email" v-model="userMail" placeholder="email">
+        </div>
+        <div class="form-group">
+          <input type="password" v-model="userPassword" :placeholder="$t('message.password')">
+        </div>
+        <div class="form-group">
+          <input type="password" v-model="userConfirmPassword" :placeholder="$t('message.confirmPassword')">
+        </div>
+        <button type="button" class="btn btn-success" @click="addUser(userName, userPassword, userConfirmPassword, userMail)" v-show="showAdd">{{ $t('message.Accept') }}</button>
+      </form>
+
+      <form class="form" data-css action="" v-show="showUpdate">
+        <h4>{{ $t('message.updateUser') }}: {{userId}}</h4>
+        <div class="form-group">
+          <input v-model="userName" :placeholder="$t('message.name')">
+        </div>
+        <div class="form-group">
+          <input type="email" v-model="userMail" placeholder="email">
+        </div>
         <input type="hidden" v-model="userId">
         <input type="hidden" v-model="userPassword">
         <input type="hidden" v-model="userRoles">
-
-        <button type="button" class="btn btn-success" @click="addUser(userName, userPassword, userConfirmPassword, userMail)" v-show="showAdd">{{ $t('message.Accept') }}</button>
         <button type="button" class="btn btn-success" @click="updateUser(userId, userName, userPassword, userMail, userRoles)" v-show="showUpdate">{{ $t('message.Accept') }}</button>
       </form>
 
@@ -66,7 +77,7 @@
     </div>
 
     <div class="alert alert-danger" v-show="error">
-      <strong>Error...</strong> no tienes permisos para realizar esta petición
+      <strong>Error...</strong> {{ $t('message.permits') }}
     </div>
     
     <!--<pre>{{ $data }}</pre>-->
@@ -110,7 +121,6 @@ export default {
       userConfirmPassword: null,
       userMail: null,
       userRoles: null,
-      showForm: false,
       showAdd: false,
       showUpdate: false,
       pageNumber: 0,
@@ -178,6 +188,9 @@ export default {
       this.showForm = true
       this.showAdd = true
       this.showUpdate = false
+      this.userName = null
+      this.userPassword = null
+      this.userMail = null
     },
     showUpdateForm(id, roles, name, password, mail) {
       this.userId = id
@@ -225,35 +238,45 @@ export default {
 
 <style>
 .data[data-css] {
-  margin: auto;
-  margin-top: 50px;
+  /*margin: auto;
   width: 50%;
   padding: 10px;
+  border-top-style: ridge;*/
+  margin-top: 20px;
 }
+
+.form[data-css] {
+  border-top-style: ridge;
+  width: 50%;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form[data-css] h4 {
+  margin-top: 10px;
+}
+
+.form[data-css] .btn {
+  margin: 10px 0;
+}
+
 .header {
   background-color: grey;
   color: white;
 }
-tr, td {
-  margin: auto;
-  width: 10%;
-  padding: 10px;
-  text-align: justify
-}
-th {
-  margin: auto;
-  width: 10%;
-  padding: 10px;
+
+.data a {
+  color: blue;
+  font: bold;
 }
 
-.data h2 {
-  color: white;
-  font: bold;
-  font-size: 21px;
+th :hover {
+  text-decoration: none;
 }
-.data h3 {
-  font-size: 18px;
-  color: blue;
+
+td :hover {
+  text-decoration: none;
 }
 
 .clear {
@@ -266,5 +289,20 @@ th {
   justify-content: center;
   width: 80%;
   margin-left: 10%;
+}
+
+.btn {
+  margin: 5px 0;
+  padding: 8px;
+  width: 100px;
+}
+
+.btn.btn-info.btn-sm {
+  width: 40px;
+}
+
+.btn.btn-primary, .btn.btn-danger {
+  margin: 0;
+  padding: 8px;
 }
 </style>

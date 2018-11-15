@@ -1,24 +1,24 @@
 <template>
   <section class="data" data-css>
     <div v-show="!error">
-      <table class="header">
-        <tr>
-          <th><h2>ID</h2></th>
-          <th><h2>{{ $t('message.Role') }}</h2></th>
-          <th><h2>{{ $t('message.Modify') }}</h2></th>
-          <th><h2>{{ $t('message.Remove') }}</h2></th>
-        </tr>
-      </table>
-      <div v-for="(role, index) in roles" :key="index">
-        <table>
+      <table class="table">
+        <thead class="header">
           <tr>
-            <router-link :to="`/role/${role.role_id}`"><a><td><h3>{{ role.role_id }}</h3></td>
-            <td style="padding-left: 200px"><h3>{{ role.name }}</h3></td></a></router-link>
-            <td style="padding-left: 0px"><button type="button" class="btn btn-primary" @click="showUpdateForm(role.role_id, role.privileges, role.name)">{{ $t('message.Modify') }}</button></td>
-            <td style="padding-left: 270px"><button type="button" class="btn btn-danger"  @click="deleteRole(role.role_id, $t('message.deleteRole'))">{{ $t('message.Remove') }}</button></td>
+            <th scope="col">ID</th>
+            <th scope="col">{{ $t('message.Role') }}</th>
+            <th scope="col">{{ $t('message.Modify') }}</th>
+            <th scope="col">{{ $t('message.Remove') }}</th>
           </tr>
-        </table>
-      </div>
+        </thead>
+        <tbody class="data" v-for="(role, index) in roles" :key="index">
+          <tr>
+            <th scope="row"><router-link :to="`/role/${role.role_id}`">{{ role.role_id }}</router-link></th>
+            <td><router-link :to="`/role/${role.role_id}`">{{ role.name }}</router-link></td>
+            <td><button type="button" class="btn btn-primary" @click="showUpdateForm(role.role_id, role.privileges, role.name)">{{ $t('message.Modify') }}</button></td>
+            <td><button type="button" class="btn btn-danger"  @click="deleteRole(role.role_id, $t('message.deleteRole'))">{{ $t('message.Remove') }}</button></td>
+          </tr>
+        </tbody>
+      </table>
 
       <div class="clear"></div>
 
@@ -35,14 +35,21 @@
 
       <div class=clear></div>
 
-      <form action="" v-show="showForm">
-        <h4 v-show="showAdd">{{ $t('message.Register') }}</h4>
-        <h4 v-show="showUpdate">{{ $t('message.updateRole') }}: {{roleId}}</h4>
-        <input v-model="roleName" :placeholder="$t('message.name')">
+      <form class="form" data-css action="" v-show="showAdd">
+        <h4>{{ $t('message.Register') }}</h4>
+        <div class="form-group">
+          <input v-model="roleName" :placeholder="$t('message.name')">
+        </div>
+        <button type="button" class="btn btn-success" @click="addRole(roleName)" v-show="showAdd">{{ $t('message.Accept') }}</button>
+      </form>
+
+      <form class="form" data-css action="" v-show="showUpdate">
+        <h4>{{ $t('message.updateRole') }}: {{roleId}}</h4>
+        <div class="form-group">
+          <input v-model="roleName" :placeholder="$t('message.name')">
+        </div>
         <input type="hidden" v-model="roleId">
         <input type="hidden" v-model="rolePrivileges">
-        
-        <button type="button" class="btn btn-success" @click="addRole(roleName)" v-show="showAdd">{{ $t('message.Accept') }}</button>
         <button type="button" class="btn btn-success" @click="updateRole(roleId, roleName, rolePrivileges)" v-show="showUpdate">{{ $t('message.Accept') }}</button>
       </form>
 
@@ -51,7 +58,7 @@
     </div>
 
     <div class="alert alert-danger" v-show="error">
-      <strong>Error...</strong> no tienes permisos para realizar esta petición
+      <strong>Error...</strong> {{ $t('message.permits') }}
     </div>
 
   </section>
@@ -88,7 +95,6 @@ export default {
       roleId: null,
       roleName: null,
       rolePrivileges: null,
-      showForm: false,
       showAdd: false,
       showUpdate: false,
       pageNumber: 0,
@@ -136,6 +142,7 @@ export default {
       this.showForm = true
       this.showAdd = true
       this.showUpdate = false
+      this.roleName = null
     },
     showUpdateForm(id, privileges, name) {
       this.roleId = id
@@ -195,47 +202,4 @@ export default {
 </script>
 
 <style>
-.data[data-css] {
-  margin: auto;
-  margin-top: 50px;
-  width: 50%;
-  padding: 10px;
-}
-.header {
-  background-color: grey;
-  color: white;
-}
- tr, td {
-  margin: auto;
-  width: 10%;
-  padding: 10px;
-  text-align: justify
-}
-th {
-  margin: auto;
-  width: 10%;
-  padding: 10px;
-}
-
-.data h2 {
-  color: white;
-  font: bold;
-  font-size: 21px;
-}
-.data h3 {
-  font-size: 18px;
-  color: blue;
-}
-
-.clear {
-  margin-bottom: 20px;
-}
-
-.msnError {
-  margin-top: 15px;
-  align-items: center;
-  justify-content: center;
-  width: 80%;
-  margin-left: 10%;
-}
 </style>
