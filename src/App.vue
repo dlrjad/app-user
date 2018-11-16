@@ -4,16 +4,17 @@
     <div>
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <router-link to="/users" class="nav-item nav-link" active-class="activo"><a id="nav-users-tab" data-toggle="tab" href = "users"  role="tab" aria-controls="nav-users" aria-selected="true">{{ $t('message.Users') }}</a></router-link>
-        <router-link to="/roles" class="nav-item nav-link" active-class="activo"><a  id="nav-roles-tab" data-toggle="tab" href="roles" role="tab" aria-controls="nav-roles" aria-selected="false">{{ $t('message.Roles') }}</a></router-link>
-        <router-link to="/privileges" class="nav-item nav-link" active-class="activo"><a  id="nav-privileges-tab" data-toggle="tab" href="privileges" role="tab" aria-controls="nav-privileges" aria-selected="false">{{ $t('message.Privileges') }}</a></router-link>
-
-        <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" @click="Spanish"><img :src="require('./assets/spanish.png')"/></a>
+        <div v-if="$store.state.authenticated" class="nav nav-tabs">
+          <router-link to="/users" class="nav-item nav-link" active-class="activo"><a id="nav-users-tab" data-toggle="tab" href = "users"  role="tab" aria-controls="nav-users" aria-selected="true">{{ $t('message.Users') }}</a></router-link>
+          <router-link to="/roles" class="nav-item nav-link" active-class="activo"><a  id="nav-roles-tab" data-toggle="tab" href="roles" role="tab" aria-controls="nav-roles" aria-selected="false">{{ $t('message.Roles') }}</a></router-link>
+          <router-link to="/privileges" class="nav-item nav-link" active-class="activo"><a  id="nav-privileges-tab" data-toggle="tab" href="privileges" role="tab" aria-controls="nav-privileges" aria-selected="false">{{ $t('message.Privileges') }}</a></router-link>
+        </div>
+        <a class="nav-item nav-link" active-class="activo" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" @click="Spanish"><img :src="require('./assets/spanish.png')"/></a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false" @click="English"><img :src="require('./assets/english.jpg')"/></a>
 
         <div v-if="$store.state.authenticated" class="user">
           <span>{{ $t('message.User') }}: {{this.$store.state.user}}</span>
-          <router-link to="/login" class="nav-item nav-link" active-class="activo" v-on:click.native="logout()" replace>{{ $t('message.Logout') }}</router-link>
+          <router-link to="/login" class="nav-item nav-link" v-on:click.native="logout()" replace>{{ $t('message.Logout') }}</router-link>
         </div>
       </div>
     </nav>
@@ -46,6 +47,7 @@ export default {
       this.$store.commit("setAuthenticated", false);
       this.$store.commit("setUser", "");
       this.$store.commit("setToken", "");
+      this.$store.commit("deleteCookie");
     }
   }
 }

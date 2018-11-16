@@ -43,12 +43,18 @@ export default {
     login() {
       if (this.input.mail != "" && this.input.password != "") {
         restApiServices.getUserByMailPassword(this.input.mail, this.input.password).then(res => {
-          //console.log(res.data)
+          
           if((!res.data.isNullOrUndefined) ) {
+
+            //let userData = JSON.parse(res.config.data)
+
             this.$emit("authenticated", true);
-            this.$store.commit("setUser", this.input.mail);
-            this.$store.commit("setToken", res.data);
+            this.$store.commit("setUser", res.data.name);
+            //this.$store.commit("setUserMail", userData.mail);
+            this.$store.commit("setToken", res.data.token);
+            this.$store.commit("setCookie", res.data.token);
             this.$router.replace({ name: "users" });
+            
           }
         }).catch(
           error => {
