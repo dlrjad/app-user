@@ -28,8 +28,21 @@
 
 import {store} from './main.js'
 
+import ManagementCookie from './utils/CookiesManagement'
+const managementCookie = new ManagementCookie();
+
 export default {
   name: 'app',
+  created() {
+    let username = managementCookie.getCookie("cookieUserName")
+    let user = managementCookie.getCookie("cookieUser")
+    if(username!="") {
+      this.$store.commit("setAuthenticated", true);
+      this.$store.commit("setUser", username);
+      this.$store.commit("setToken", user);
+      this.$router.replace({ name: "users" });
+    }
+  },
   methods: {
     switchLocale() {
       this.$i18n.locale === 'es' ? this.$i18n.locale = 'en' : this.$i18n.locale = 'es'
@@ -47,7 +60,8 @@ export default {
       this.$store.commit("setAuthenticated", false);
       this.$store.commit("setUser", "");
       this.$store.commit("setToken", "");
-      this.$store.commit("deleteCookie");
+      managementCookie.deleteCookie("cookieUser");
+      managementCookie.deleteCookie("cookieUserName");
     }
   }
 }

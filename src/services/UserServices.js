@@ -22,6 +22,16 @@ export default class RestResource {
     }
     return axiosConfig;
   }
+
+  getHeadersregister() {
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      }
+    }
+    return axiosConfig;
+  }
   
   getUsers() {
     
@@ -59,7 +69,7 @@ export default class RestResource {
     }
     //console.log(data)
 
-    return axios.post("http://localhost:8090/login", data, this.getHeaderslogin())
+    return axios.post("http://localhost:8090/login", data)
   }
 
   deleteUser(id) {
@@ -83,6 +93,14 @@ export default class RestResource {
       roles: roles
     },
     this.getConfig())
+  }
+
+  registerUser(name, password, mail) {
+    return axios.post(process.env.ROOT_API + '/register', {
+      name: name,
+      password: password,
+      mail: mail
+    });
   }
 
 }

@@ -7,7 +7,6 @@ export const store = new Vuex.Store({
     user: "",
     token: "",
     authenticated: "",
-    cookie: "",
   },
   mutations: {
     setUser(state, user) {
@@ -19,11 +18,5 @@ export const store = new Vuex.Store({
     setAuthenticated(state, flag) {
       state.authenticated = flag
     },
-    setCookie(state, token) {
-      document.cookie = "cookieUser=" + token+"; max-age=3600";
-    },
-    deleteCookie(state) {
-      document.cookie = "cookieUser=; max-age=0"; //eliminar cookie
-    }
   }
 })

@@ -11,6 +11,7 @@ import Privilege from '@/components/PrivilegeInfo.vue'
 import NotFound from '@/views/NotFound.vue'
 
 import LoginComponent from "@/views/Login.vue"
+import RegisterComponent from "@/views/Register.vue"
 
 import { store } from "../store/store.js";
 
@@ -22,6 +23,8 @@ const router = new Router({
   routes: [  
     {path: '/', redirect: '/login'},
     {path: '/login', name: 'login', component: LoginComponent},
+
+    {path: '/register', name: 'register', component: RegisterComponent},
 
     {path: '/users', component: BootStrapComponent,  
       children: [
