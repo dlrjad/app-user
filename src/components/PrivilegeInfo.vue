@@ -6,7 +6,7 @@
     </ul>
 
     <div class="alert alert-danger" v-show="error">
-      <strong>Error...</strong> no tienes permisos para realizar esta petición
+      <strong>Error...</strong> {{ $t('message.permits') }}
     </div>
 
   </section>
@@ -22,13 +22,10 @@ export default {
   created() {
     this.error = false
     restApiServices.getPrivilege(this.id).then(res => {
-      //console.log(res.data)
       this.privilege = res.data
     })
     .catch(
       error => {
-        console.log(error),
-        //alert(error)
         this.error = true
       }
     )

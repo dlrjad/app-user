@@ -2,7 +2,7 @@
   <transition name="bounce">
     <div :class="`alert alert-${error}`" class="msn">
       <span class="close" @click="close">x</span>
-      <strong>Error...</strong> {{message}}
+      <strong>{{messageState}}...</strong> {{message}}
     </div>
   </transition>
 </template>
@@ -13,6 +13,10 @@ export default {
     message: {
       type: String,
       required: true
+    },
+    messageState: {
+      type: String,
+      default: "Error"
     },
     error: {
       type: String,

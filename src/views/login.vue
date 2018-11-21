@@ -5,7 +5,7 @@
         <h4>{{ $t('message.Login') }}</h4>
         <div class="form-group">
           <label>Email</label>
-          <input type="mail" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="mail" v-model="input.mail" placeholder="Mail" />
+          <input type="mail" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="mail" v-model="input.mail" placeholder="Email" />
         </div>
         <div class="form-group">
           <label>Password</label>
@@ -66,13 +66,13 @@ export default {
           }
         }).catch(
           error => {
-            this.messageError = "The mail and / or password is incorrect"
+            this.$i18n.locale == "es" ? this.messageError = "El Email y/o password es incorrecto": this.messageError = "The Email and/or password is incorrect";
           }
         )
 
       } else {
-        //this.messageError = "{{$t('message.errorNotDataLogin')}}"
-        this.messageError = "You must enter mail and password"
+        //this.messageError = "$t('message.errorNotDataLogin')"
+        this.$i18n.locale == "es" ? this.messageError = "Debes indicar Email y/o password": this.messageError = "You must enter Email and/or password";
       }
     },
     close() {
@@ -87,23 +87,38 @@ export default {
 </script>
 
 <style scoped>
-.sectionLogin {
-  display: flex;
-  flex-direction: row;
-  margin: 0 15%;
-}
-
-.formLogin {
-  margin-top: 100px;
-  margin-right: 13%;
-}
-
 #login {
   width: 500px;
   border: 1px solid #cccccc;
   background-color: #ffffff;
   margin: auto;
   padding: 20px;
+}
+
+@media only screen and (max-width: 1920px) {
+    .sectionLogin {
+      display: flex;
+      flex-direction: row;
+      margin: 0 15%;
+    }
+
+    .formLogin {
+      margin-top: 100px;
+      margin-right: 25%;
+    }
+}
+
+@media only screen and (max-width: 1366px) {
+    .sectionLogin {
+      display: flex;
+      flex-direction: row;
+      margin: 0 8%;
+    }
+
+    .formLogin {
+      margin-top: 100px;
+      margin-right: 12%;
+    }
 }
 
 #login label, #login .form-check {

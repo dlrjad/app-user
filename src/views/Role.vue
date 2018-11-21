@@ -35,18 +35,19 @@
 
       <div class=clear></div>
 
-      <form class="form" data-css action="" v-show="showAdd">
+      <form class="form mb-3 row col-6" data-css action="" v-show="showAdd">
         <h4>{{ $t('message.Register') }}</h4>
         <div class="form-group">
-          <input v-model="roleName" :placeholder="$t('message.name')">
+          <label>{{ $t('message.name') }}</label>
+          <input type="text" class="form-control" v-model="roleName" :placeholder="$t('message.name')">
         </div>
         <button type="button" class="btn btn-success" @click="addRole(roleName)" v-show="showAdd">{{ $t('message.Accept') }}</button>
       </form>
 
-      <form class="form" data-css action="" v-show="showUpdate">
+      <form class="form mb-3 row col-6" data-css action="" v-show="showUpdate">
         <h4>{{ $t('message.updateRole') }}: {{roleId}}</h4>
         <div class="form-group">
-          <input v-model="roleName" :placeholder="$t('message.name')">
+          <input type="text" class="form-control" v-model="roleName" :placeholder="$t('message.name')">
         </div>
         <input type="hidden" v-model="roleId">
         <input type="hidden" v-model="rolePrivileges">
@@ -168,7 +169,7 @@ export default {
       )
     },
     showError() {
-      this.messageError = "Error peticion no tienes permisos"
+      this.$i18n.locale == "es" ? this.messageError = "no tienes permisos para realizar esta petición": this.messageError = "you haven`t permits to realize this petition";
     },
     close() {
       this.messageError = null

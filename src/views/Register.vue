@@ -4,25 +4,20 @@
       <div id="register">
         <h4>{{ $t('message.Register') }}</h4>
         <div class="form-group">
-          <input v-model="input.userName" :placeholder="$t('message.name')">
+          <label>{{ $t('message.name') }}</label>
+          <input class="form-control" v-model="input.userName" :placeholder="$t('message.name')">
         </div>
         <div class="form-group">
-          <input type="email" v-model="input.userMail" placeholder="email">
-        </div>
-        <div class="form-group">
-          <input type="password" v-model="input.password" :placeholder="$t('message.password')">
-        </div>
-        <div class="form-group">
-          <input type="password" v-model="input.confirmPassword" :placeholder="$t('message.confirmPassword')">
+          <label>Email</label>
+          <input type="email" class="form-control" v-model="input.userMail" placeholder="Email" @keyup.enter="register">
         </div>
         <button type="button" class="btn btn-success" @click="register()">{{ $t('message.Register') }}</button>
         <Alert class="msnError" v-if="messageError" :message="messageError" @close-window="close"></Alert>
+        <Alert class="msnError" :messageState="$t('message.Success')" error="success" v-if="messageRegister" :message="messageRegister" @close-window="close"></Alert>
       </div>
     </form>
   </section>
 </template>
-
-
 
 <script>
 
@@ -39,33 +34,33 @@ export default {
       input: {
         userName: "",
         userMail: "",
-        password: "",
-        confirmPassword: "",
       },
-      messageError: null
+      messageError: null,
+      messageRegister: null,
     };
   },
   methods: {
     register() {
-      if(this.input.password != this.input.confirmPassword) {
-        //alert("contraseñas no coinciden")
-        this.messageError = "Password y confirmar password deben coincidir"
+      //console.log(this.input.userName, this.input.userMail)
+      if(this.input.userName=="" || this.input.userMail=="") {
+        this.$i18n.locale == "es" ? this.messageError = "Debe introducir nombre y/o email" : this.messageError = "You must enter Email and/or password";
       }else {
-        //console.log(this.input.userName, this.input.password, this.input.userMail)
-        restApiServices.registerUser(this.input.userName, this.input.password, this.input.userMail).then(res => {
-          console.log(res.data)
+        restApiServices.registerUser(this.input.userName, this.input.userMail).then(res => {
+          //console.log(res.data)
+          this.$i18n.locale == "es" ? this.messageRegister = "Usuario registrado con éxito" : this.messageRegister = "Registered user with success";
         })
         .catch(
           error => {
-            console.log(error),
-            //alert(error)
-            this.showError()
+            this.$i18n.locale == "es" ? this.messageError = "No pudo registrarse el usuario": this.messageError = "The user couldn't register";
           }
         )
+        this.input.userName = "";
+        this.input.userMail = "";
       }
     },    
     close() {
-      this.messageError = null
+      this.messageError = null,
+      this.messageRegister = null
     },
   },
   components: {
@@ -85,6 +80,11 @@ export default {
   background-color: #ffffff;
   margin: auto;
   padding: 20px;
+}
+
+#register label {
+  display: flex;
+  align-items: left;
 }
 
 .btn {

@@ -76,10 +76,9 @@ export default class RestResource {
     return axios.delete(process.env.ROOT_API + '/user/' + id, this.getConfig());
   }
 
-  addUser(name, password, mail) {
+  addUser(name, mail) {
     return axios.post(process.env.ROOT_API + '/user/', {
       name: name,
-      password: password,
       mail: mail
     },
     this.getConfig());
@@ -95,10 +94,9 @@ export default class RestResource {
     this.getConfig())
   }
 
-  registerUser(name, password, mail) {
+  registerUser(name, mail) {
     return axios.post(process.env.ROOT_API + '/register', {
       name: name,
-      password: password,
       mail: mail
     });
   }

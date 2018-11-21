@@ -16,7 +16,7 @@ export default {
       updateUser: 'Update user',
       updateRole: 'Update role',
       updatePrivilege: 'Update privilege',
-      name: 'name',
+      name: 'Name',
       userData: 'User´s data',
       roleData: 'Role´s data',
       privilegeData: 'Privilege´s data',
@@ -28,13 +28,15 @@ export default {
       deleteUser: 'Do you want to delete the user with id',
       deleteRole: 'Do you want to delete the role with id',
       deletePrivilege: 'Do you want to delete the privilege with id',
-      password: 'password',
-      confirmPassword: 'confirm password',
+      Password: 'Password',
+      ConfirmPassword: 'Confirm password',
       Login: 'Login',
       Logout: 'Logout',
       rememberPassword: 'Remember password',
       errorNotDataLogin: 'You must enter mail and password',
       permits: 'you haven`t permits to realize this petition',
+      Success: 'Success',
+      changePassword: 'Change password',
     }   
   } 
 }

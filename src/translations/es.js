@@ -16,7 +16,7 @@ export default {
       updateUser: 'Actualizar usuario',
       updateRole: 'Actualizar rol',
       updatePrivilege: 'Actualizar privilegio',
-      name: 'nombre',
+      name: 'Nombre',
       userData: 'Datos del usuario',
       roleData: 'Datos del rol',
       privilegeData: 'Datos del privilegio',
@@ -28,13 +28,15 @@ export default {
       deleteUser: '¿Desea eliminar el usuario con id',
       deleteRole: '¿Desea eliminar el rol con id',
       deletePrivilege: '¿Desea eliminar el privilegio con id',
-      password: 'contraseña',
-      confirmPassword: 'confirmar contraseña',
+      Password: 'Contraseña',
+      ConfirmPassword: 'Confirmar contraseña',
       Login: 'Iniciar sesión',
       Logout: 'Cerrar sesión',
       rememberPassword: 'Recordar contraseña',
       errorNotDataLogin: 'Debe introducir mail y password',
       permits: 'no tienes permisos para realizar esta petición',
+      Success: 'Éxito',
+      changePassword: 'Cambiar contraseña'
     }   
   } 
 }

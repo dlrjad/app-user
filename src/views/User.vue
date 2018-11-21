@@ -37,30 +37,26 @@
 
       <div class=clear></div>
 
-      <form class="form" data-css action="" v-show="showAdd">
-        <h4 v-show="showAdd">{{ $t('message.Register') }}</h4>
-        <div class="form-group">
-          <input v-model="userName" :placeholder="$t('message.name')">
-        </div>
-        <div class="form-group">
-          <input type="email" v-model="userMail" placeholder="email">
-        </div>
-        <div class="form-group">
-          <input type="password" v-model="userPassword" :placeholder="$t('message.password')">
-        </div>
-        <div class="form-group">
-          <input type="password" v-model="userConfirmPassword" :placeholder="$t('message.confirmPassword')">
-        </div>
-        <button type="button" class="btn btn-success" @click="addUser(userName, userPassword, userConfirmPassword, userMail)" v-show="showAdd">{{ $t('message.Accept') }}</button>
-      </form>
+        <form class="form mb-3 row col-6" data-css action="" v-show="showAdd">
+          <h4 v-show="showAdd">{{ $t('message.Register') }}</h4>
+          <div class="form-group">
+            <label>{{ $t('message.name') }}</label>
+            <input type="text" class="form-control" v-model="userName" :placeholder="$t('message.name')">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" v-model="userMail" placeholder="Email">
+          </div>
+          <button type="button" class="btn btn-success" @click="addUser(userName, userMail)" v-show="showAdd">{{ $t('message.Accept') }}</button>
+        </form>
 
-      <form class="form" data-css action="" v-show="showUpdate">
+      <form class="form mb-3 row col-6" data-css action="" v-show="showUpdate">
         <h4>{{ $t('message.updateUser') }}: {{userId}}</h4>
         <div class="form-group">
-          <input v-model="userName" :placeholder="$t('message.name')">
+          <input type="text" class="form-control" v-model="userName" :placeholder="$t('message.name')">
         </div>
         <div class="form-group">
-          <input type="email" v-model="userMail" placeholder="email">
+          <input type="email" class="form-control" v-model="userMail" placeholder="email">
         </div>
         <input type="hidden" v-model="userId">
         <input type="hidden" v-model="userPassword">
@@ -68,9 +64,6 @@
         <button type="button" class="btn btn-success" @click="updateUser(userId, userName, userPassword, userMail, userRoles)" v-show="showUpdate">{{ $t('message.Accept') }}</button>
       </form>
 
-      <!--<div class="alert alert-danger" v-show="errorOperation">
-        <strong>Error...</strong> no tienes permisos para realizar esta petición
-      </div>-->
 
       <Alert class="msnError" v-if="messageError" :message="messageError" @close-window="close"></Alert>
 
@@ -150,23 +143,19 @@ export default {
         )
       }
     },
-    addUser(name, password, confirmPassword, mail) {
-      if(password != confirmPassword) {
-        alert("contraseñas no coinciden")
-      }else {
-        restApiServices.addUser(name, password, mail).then(res => {
-          this.users.push(res.data);
-          this.showForm = false
-          this.showAdd = false
-        })
-        .catch(
-          error => {
-            console.log(error),
-            //alert(error)
-            this.showError()
-          }
-        )
-      }
+    addUser(name, mail) {
+      restApiServices.addUser(name, mail).then(res => {
+        this.users.push(res.data);
+        this.showForm = false
+        this.showAdd = false
+      })
+      .catch(
+        error => {
+          console.log(error),
+          //alert(error)
+          this.showError()
+        }
+      )
     },
     updateUser(id, name, password, mail, roles) {
       console.log(id, name, password, mail, roles)
@@ -203,7 +192,7 @@ export default {
       this.showAdd = false
     },
     showError() {
-      this.messageError = "Error peticion no tienes permisos"
+      this.$i18n.locale == "es" ? this.messageError = "no tienes permisos para realizar esta petición": this.messageError = "you haven`t permits to realize this petition";
     },
     close() {
       this.messageError = null
@@ -247,18 +236,27 @@ export default {
 
 .form[data-css] {
   border-top-style: ridge;
-  width: 50%;
   display:block;
   margin-left: auto;
   margin-right: auto;
+  padding: 20px;
+  background-color: #6c757d;
+  border-radius: 15px;
 }
 
 .form[data-css] h4 {
   margin-top: 10px;
+  color: #fff;
 }
 
 .form[data-css] .btn {
   margin: 10px 0;
+}
+
+.form[data-css] label {
+  color: #ffffff;
+  display: flex;
+  align-items: left;
 }
 
 .header {
