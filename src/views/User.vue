@@ -269,11 +269,7 @@ export default {
   font: bold;
 }
 
-th :hover {
-  text-decoration: none;
-}
-
-td :hover {
+th :hover, td :hover {
   text-decoration: none;
 }
 
