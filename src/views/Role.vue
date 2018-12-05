@@ -63,7 +63,6 @@
     </div>
 
   </section>
-  
 </template>
 
 <script>
@@ -199,8 +198,4 @@ export default {
     Alert
   }
 }
-  
 </script>
-
-<style>
-</style>

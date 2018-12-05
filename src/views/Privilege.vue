@@ -193,9 +193,5 @@ export default {
   components: {
     Alert
   }
-}
-  
+}  
 </script>
-
-<style>
-</style>

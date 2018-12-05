@@ -14,7 +14,7 @@ export default class RestResource {
     return axiosConfig
   }
 
-  getHeaderslogin() {
+  /*getHeaderslogin() {
     let axiosConfig = {
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -31,10 +31,9 @@ export default class RestResource {
       }
     }
     return axiosConfig;
-  }
+  }*/
   
   getUsers() {
-    
     return new Promise((resolve, reject) => {
       axios.get(process.env.ROOT_API + '/users', this.getConfig()).then(
         response => {
@@ -68,8 +67,7 @@ export default class RestResource {
       password: password,
     }
     //console.log(data)
-
-    return axios.post("http://localhost:8090/login", data)
+    return axios.post(process.env.domain+'/login', data)
   }
 
   deleteUser(id) {
@@ -100,5 +98,4 @@ export default class RestResource {
       mail: mail
     });
   }
-
 }

@@ -40,7 +40,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .bounce-enter-active {
   animation: bounce-in .5s;
 }
@@ -59,4 +59,3 @@ export default {
   }
 }
 </style>
-

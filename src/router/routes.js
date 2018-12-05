@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import BootStrapComponent from '@/components/BootStrapComponent'
+import Home from '@/views/Home.vue'
 import Users from '@/views/User.vue'
 import User from '@/components/UserInfo.vue'
 import Roles from '@/views/Role.vue'
@@ -20,12 +21,16 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   
-  routes: [  
+  routes: [
+    
+    {path: '/home', component: Home},
+    
     {path: '/', redirect: '/login'},
     {path: '/login', name: 'login', component: LoginComponent},
 
     {path: '/register', name: 'register', component: RegisterComponent},
 
+    
     {path: '/users', component: BootStrapComponent,  
       children: [
         {path: '', name: 'users', component: Users},

@@ -194,31 +194,3 @@ export default {
   }
 }
 </script>
-
-<style>
-#data[data-css] {
-  margin: auto;
-  margin-top: 50px;
-  width: 50%;
-  padding: 10px;
-}
-
-.clear {
-  margin-bottom: 20px;
-}
-
-.formUpdate, .formChangePassword, .formAssign {
-  padding: 20px;
-  background-color: #6c757d;
-  border-radius: 15px;
-}
-
-.formUpdate h4, .formChangePassword h4, .formAssign h2, .formChangePassword label, .formAssign label  {
-  color: #fff;
-}
-
-.formChangePassword label{ 
-  display: flex;
-  align-items: left;
-}
-</style>

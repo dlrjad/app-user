@@ -146,31 +146,3 @@ export default {
   }
 }
 </script>
-
-<style>
-#data[data-css] {
-  margin: auto;
-  margin-top: 50px;
-  width: 50%;
-  padding: 10px;
-}
-
-.clear {
-  margin-bottom: 20px;
-}
-
-.formUpdateRole {
-  padding: 20px;
-  background-color: #6c757d;
-  border-radius: 15px;
-}
-
-.formUpdateRole h4, .formUpdateRole label  {
-  color: #fff;
-}
-
-.formUpdateRole label{ 
-  display: flex;
-  align-items: left;
-}
-</style>

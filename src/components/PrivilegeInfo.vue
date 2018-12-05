@@ -39,14 +39,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-#data[data-css] {
-  margin: auto;
-  margin-top: 50px;
-  width: 50%;
-  padding: 10px;
-}
-
-</style>

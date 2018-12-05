@@ -1,25 +1,46 @@
 <template>
   <div id="app">
-    <h1>{{ $t('message.Title') }}</h1>
     <div>
-    <nav>
-      <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <div v-if="$store.state.authenticated" class="nav nav-tabs" id="mainMenu">
-          <router-link to="/users" class="nav-item nav-link" active-class="activo"><a id="nav-users-tab" data-toggle="tab" href = "users"  role="tab" aria-controls="nav-users" aria-selected="true">{{ $t('message.Users') }}</a></router-link>
-          <router-link to="/roles" class="nav-item nav-link" active-class="activo"><a  id="nav-roles-tab" data-toggle="tab" href="roles" role="tab" aria-controls="nav-roles" aria-selected="false">{{ $t('message.Roles') }}</a></router-link>
-          <router-link to="/privileges" class="nav-item nav-link" active-class="activo"><a  id="nav-privileges-tab" data-toggle="tab" href="privileges" role="tab" aria-controls="nav-privileges" aria-selected="false">{{ $t('message.Privileges') }}</a></router-link>
-        </div>
-        <a class="nav-item nav-link" active-class="activo" id="nav-spanish-tab" data-toggle="tab" href="#nav-spanish" role="tab" aria-controls="nav-spanish" aria-selected="true" @click="Spanish"><img :src="require('./assets/spanish.png')"/></a>
-        <a class="nav-item nav-link" id="nav-english-tab" data-toggle="tab" href="#nav-english" role="tab" aria-controls="nav-english" aria-selected="false" @click="English"><img :src="require('./assets/english.jpg')"/></a>
+      <b-navbar toggleable="md" type="dark" variant="info">
 
-        <div v-if="$store.state.authenticated" class="user">
-          <span>{{ $t('message.User') }}: {{this.$store.state.user}}</span>
-          <router-link to="/login" class="nav-item nav-link" href="logout" v-on:click.native="logout()" replace>{{ $t('message.Logout') }}</router-link>
-        </div>
-      </div>
-    </nav>
-    
+        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+
+        <router-link to="/home"><b-navbar-brand><img :src="require('./assets/logo.png')" :alt="$t('message.Title')"/></b-navbar-brand></router-link>
+
+        <b-collapse is-nav id="nav_collapse">
+
+          <div v-if="$store.state.authenticated">
+            <b-navbar-nav class="menu">
+              <router-link to="/users"><a>{{ $t('message.Users') }}</a></router-link>
+              <router-link to="/roles"><a>{{ $t('message.Roles') }}</a></router-link>
+              <router-link to="/privileges"><a>{{ $t('message.Privileges') }}</a></router-link>
+            </b-navbar-nav>
+          </div>
+
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">
+
+            <a class="nav-item nav-link" active-class="activo" id="nav-spanish-tab" data-toggle="tab" href="#nav-spanish" role="tab" aria-controls="nav-spanish" aria-selected="true" @click="switchLocale('es')"><img :src="require('./assets/img/spanish.png')"/></a>
+            <a class="nav-item nav-link" id="nav-english-tab" data-toggle="tab" href="#nav-english" role="tab" aria-controls="nav-english" aria-selected="false" @click="switchLocale('en')"><img :src="require('./assets/img/england.png')"/></a>
+
+            <div v-if="$store.state.authenticated">
+              <b-nav-item-dropdown right class="menuUser">
+                <!-- Using button-content slot -->
+                <template slot="button-content">
+                  <em><span>{{ $t('message.User') }}: {{this.$store.state.user}}</span></em>
+                </template>
+                <div class="menuUser">
+                  <b-dropdown-item href="#">Profile</b-dropdown-item>
+                  <router-link to="/login" v-on:click.native="logout()" replace><b-dropdown-item href="logout">{{ $t('message.Logout') }}</b-dropdown-item></router-link>
+                </div>
+              </b-nav-item-dropdown>
+            </div>
+          </b-navbar-nav>
+
+        </b-collapse>
+      </b-navbar>
     </div>
+
     <router-view @authenticated="setAuthenticated"></router-view>
   </div>
 </template>
@@ -44,14 +65,9 @@ export default {
     }
   },
   methods: {
-    switchLocale() {
-      this.$i18n.locale === 'es' ? this.$i18n.locale = 'en' : this.$i18n.locale = 'es'
-    },
-    Spanish() {
-      this.$i18n.locale = 'es'
-    },
-    English() {
-      this.$i18n.locale = 'en'
+    switchLocale(lang) {
+      this.$i18n.locale = lang
+      //this.$i18n.locale === 'es' ? this.$i18n.locale = 'en' : this.$i18n.locale = 'es'
     },
     setAuthenticated(status) {
       this.$store.commit("setAuthenticated", status);
@@ -68,52 +84,5 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
-.activo a {
-  color: blue;
-  font-weight: bold
-}
-
-img {
-  width: 40px;
-  height: 30px;
-}
-
-.user {
-  text-align: right;
-  margin-left: 50%;
-}
-.user span {
-  font-weight: bold;
-}
-
-#mainMenu {
-  margin-bottom: -1px;
-}
+@import url('../static/style/main.css');
 </style>

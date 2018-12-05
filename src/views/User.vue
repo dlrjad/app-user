@@ -89,8 +89,6 @@ import Alert from '../components/MessageComponent';
 
 export default {
   created() {
-    //console.log(process.env.ROOT_API)
-    //console.log(this.$store.state.token)
     this.error = false
     restApiServices.getUsers().then(
       users => {
@@ -222,81 +220,4 @@ export default {
     Alert
   }
 }
-  
 </script>
-
-<style>
-.data[data-css] {
-  /*margin: auto;
-  width: 50%;
-  padding: 10px;
-  border-top-style: ridge;*/
-  margin-top: 20px;
-}
-
-.form[data-css] {
-  border-top-style: ridge;
-  display:block;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
-  background-color: #6c757d;
-  border-radius: 15px;
-}
-
-.form[data-css] h4 {
-  margin-top: 10px;
-  color: #fff;
-}
-
-.form[data-css] .btn {
-  margin: 10px 0;
-}
-
-.form[data-css] label {
-  color: #ffffff;
-  display: flex;
-  align-items: left;
-}
-
-.header {
-  background-color: grey;
-  color: white;
-}
-
-.data a {
-  color: blue;
-  font: bold;
-}
-
-th :hover, td :hover {
-  text-decoration: none;
-}
-
-.clear {
-  margin-bottom: 20px;
-}
-
-.msnError {
-  margin-top: 15px;
-  align-items: center;
-  justify-content: center;
-  width: 80%;
-  margin-left: 10%;
-}
-
-.btn {
-  margin: 5px 0;
-  padding: 8px;
-  width: 100px;
-}
-
-.btn.btn-info.btn-sm {
-  width: 40px;
-}
-
-.btn.btn-primary, .btn.btn-danger {
-  margin: 0;
-  padding: 8px;
-}
-</style>
